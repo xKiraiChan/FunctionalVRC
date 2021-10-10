@@ -1,5 +1,6 @@
-﻿module OnUIInit
+﻿module Modules.UI
 
+open MelonLoader
 open UnityEngine
 
 let _execute = fun (ui: Transform) -> 
@@ -11,3 +12,6 @@ let _execute = fun (ui: Transform) ->
     launch_pad.Find("VRC+_Banners").gameObject.active <- false;
     launch_pad.Find("Carousel_Banners").gameObject.active <- false;
 let execute = _execute
+
+let Init = fun () -> 
+    Events.OnUIInit.Add(fun ui -> execute(ui.transform))

@@ -6,7 +6,11 @@ open FunctionalEnumerator
 
 type FunctionalVRC() = 
     inherit MelonMod()
+
     override _.OnApplicationStart() = 
+        ModuleLoader.Load()
+        ModuleLoader.Init()
+
         FunctionalEnumerator([
             fun (_) -> 
                 let ui = GameObject.Find("UserInterface")
@@ -15,9 +19,10 @@ type FunctionalVRC() =
                  | _ -> (box ui, null)
             fun (store) ->
                 MelonLogger.Msg "Found UI Manager"
-                OnUIInit.execute (store :?> GameObject).transform
+                Events.UIInit(store :?> GameObject)
                 (null, box false)
         ]).Start()
+
     override _.OnSceneWasLoaded(buildIndex, sceneName) =
         if buildIndex = -1 then
             FunctionalEnumerator([
@@ -36,9 +41,9 @@ type FunctionalVRC() =
                      | None -> (null, box true)
                      | Some(other) -> (box other, null)
                 fun (store) -> 
-                    let player = store :?> UnityEngine.GameObject
                     MelonLogger.Msg "Found Local Player"
-                    (null, box false)
+                    //this.Events.LocalLoad(store :?> GameObject)
+                    (null, null)
             ]).Start()
 
 [<assembly: MelonInfo(typeof<FunctionalVRC>, "FunctionalVRC", "0.1.0", "Kirai Chan", "github.com/xKiraiChan/FunctionalVRC")>] 

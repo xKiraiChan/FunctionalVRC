@@ -7,10 +7,12 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Compile Include="Utils.fs" />
-    <Compile Include="FunctionalEnumerator.fs" />
-    <Compile Include="OnUIInit.fs" />
     <Content Include="nuget.config" />
+    <Compile Include="Events.fs" />
+    <Compile Include="Modules\UI.fs" />
+    <Compile Include="Utils.fs" />
+    <Compile Include="ModuleLoader.fs" />
+    <Compile Include="FunctionalEnumerator.fs" />
     <Compile Include="FunctionalVRC.fs" />
   </ItemGroup>
 

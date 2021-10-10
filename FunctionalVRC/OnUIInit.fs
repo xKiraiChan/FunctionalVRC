@@ -2,8 +2,7 @@
 
 open UnityEngine
 
-let _execute = fun () -> 
-    let ui = GameObject.Find("UserInterface").transform;
+let _execute = fun (ui: Transform) -> 
     let qm = ui.Find("Canvas_QuickMenu(Clone)");
 
     qm.GetComponent<Canvas>().referencePixelsPerUnit <- 0f

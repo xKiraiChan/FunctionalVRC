@@ -2,9 +2,10 @@
 
 open MelonLoader
 
-type FunctionalEnumerator(Lambdas: list<unit -> obj>) =
+type FunctionalEnumerator(Lambdas: list<obj -> obj * obj>) =
     let mutable position: int = 0
     let mutable result: obj = null
+    let mutable storage: obj = null
 
     member _.Position 
         with get() = position
@@ -29,7 +30,11 @@ type FunctionalEnumerator(Lambdas: list<unit -> obj>) =
         member this.MoveNext() = 
             match this.Position < Lambdas.Length with
              | true -> 
-                match Lambdas.[this.Position]() with
+                let store, value = Lambdas.[this.Position](storage)
+                if not (isNull store) then
+                    storage <- store
+
+                match value with
                  | :? bool as repeat ->
                     if not repeat then
                        this.Position <- this.Position + 1

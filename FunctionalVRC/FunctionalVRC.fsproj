@@ -8,7 +8,7 @@
   
   <ItemGroup>
     <Compile Include="FunctionalEnumerator.fs" />
-    <Compile Include="OnGUI.fs" />
+    <Compile Include="OnUIInit.fs" />
     <Content Include="nuget.config" />
     <Compile Include="FunctionalVRC.fs" />
   </ItemGroup>

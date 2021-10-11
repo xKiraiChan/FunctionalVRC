@@ -12,21 +12,24 @@ type FunctionalVRC() =
         ModuleLoader.Init()
 
         FunctionalEnumerator([
-            fun (_) -> 
+            fun _ -> 
                 let ui = GameObject.Find("UserInterface")
                 match ui with
                  | null -> (null, box true)
                  | _ -> (box ui, null)
-            fun (store) ->
+            fun store ->
                 MelonLogger.Msg "Found UI Manager"
                 Events.UIInit(store :?> GameObject)
                 (null, box false)
         ]).Start()
 
+    override _.OnUpdate () =
+        Events.Update ()
+
     override _.OnSceneWasLoaded(buildIndex, sceneName) =
         if buildIndex = -1 then
             FunctionalEnumerator([
-                fun (store) ->
+                fun store ->
                     let scene = 
                         match store with
                          | null -> SceneManagement.SceneManager.GetSceneByName sceneName
@@ -40,9 +43,9 @@ type FunctionalVRC() =
                     match player with
                      | None -> (null, box true)
                      | Some(other) -> (box other, null)
-                fun (store) -> 
+                fun store -> 
                     MelonLogger.Msg "Found Local Player"
-                    //this.Events.LocalLoad(store :?> GameObject)
+                    Events.LocalLoad(store :?> GameObject)
                     (null, null)
             ]).Start()
 

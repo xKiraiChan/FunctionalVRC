@@ -1,6 +1,5 @@
 ﻿module Modules.UI
 
-open MelonLoader
 open UnityEngine
 
 let _execute = fun (ui: Transform) -> 

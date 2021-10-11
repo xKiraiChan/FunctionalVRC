@@ -9,10 +9,11 @@
   <ItemGroup>
     <Content Include="nuget.config" />
     <Compile Include="Events.fs" />
-    <Compile Include="Modules\UI.fs" />
     <Compile Include="Utils.fs" />
-    <Compile Include="ModuleLoader.fs" />
     <Compile Include="FunctionalEnumerator.fs" />
+    <Compile Include="Modules\Flight.fs" />
+    <Compile Include="Modules\UI.fs" />
+    <Compile Include="ModuleLoader.fs" />
     <Compile Include="FunctionalVRC.fs" />
   </ItemGroup>
 

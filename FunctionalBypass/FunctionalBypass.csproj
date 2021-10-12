@@ -7,8 +7,8 @@
     <ProjectGuid>{BB3C0886-ACAB-4693-A28F-64C505B832F8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FunctionalLoader</RootNamespace>
-    <AssemblyName>FunctionalLoader</AssemblyName>
+    <RootNamespace>FunctionalVRC</RootNamespace>
+    <AssemblyName>FunctionalBypass</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -50,8 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SigScan.cs" />
-    <Compile Include="FunctionalLoader.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FunctionalBypass.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

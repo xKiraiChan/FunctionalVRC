@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FunctionalVRC", "FunctionalVRC\FunctionalVRC.fsproj", "{82147C11-34A1-4444-9205-4616353F0BF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalLoader", "FunctionalLoader\FunctionalLoader.csproj", "{BB3C0886-ACAB-4693-A28F-64C505B832F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalBypass", "FunctionalBypass\FunctionalBypass.csproj", "{BB3C0886-ACAB-4693-A28F-64C505B832F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

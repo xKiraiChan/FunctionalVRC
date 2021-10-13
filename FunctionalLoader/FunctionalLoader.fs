@@ -29,10 +29,10 @@ type FunctionalVRC() =
             bytes <- File.ReadAllBytes "Dependencies/FunctionalLib.dll"
             oldHash <- SHA256(bytes)
             if not local then
-                newHash <- Async.RunSynchronously (Async.AwaitTask (http.GetStringAsync("https://raw.githubusercontent.com/xKiraiChan/FunctionalVRC/master/FunctionalLib/FunctionalLib.dll.hash")))
+                newHash <- Async.RunSynchronously (Async.AwaitTask (http.GetStringAsync("https://github.com/xKiraiChan/FunctionalVRC/blob/master/FunctionalLib/Dist/FunctionalLib.dll?raw=true")))
 
         if (isNull bytes || not (oldHash.Equals newHash)) && not local then
-            bytes <- Async.RunSynchronously (Async.AwaitTask (http.GetByteArrayAsync("https://raw.githubusercontent.com/xKiraiChan/FunctionalVRC/master/FunctionalLib/FunctionalLib.dll")))
+            bytes <- Async.RunSynchronously (Async.AwaitTask (http.GetByteArrayAsync("https://github.com/xKiraiChan/FunctionalVRC/blob/master/FunctionalLib/Dist/FunctionalLib.dll.hash?raw=true")))
             newHash <- SHA256(bytes)
 
         match isNull oldHash with
@@ -58,7 +58,7 @@ type FunctionalVRC() =
         ()
 
 
-[<assembly: MelonInfo(typeof<FunctionalVRC>, "FunctionalLoader", "0.1.0", "Kirai Chan", "github.com/xKiraiChan/FunctionalVRC")>] 
+[<assembly: MelonInfo(typeof<FunctionalVRC>, "FunctionalLoader", "0.1.1", "Kirai Chan", "github.com/xKiraiChan/FunctionalVRC")>] 
 [<assembly: MelonGame("VRChat", "VRChat")>] 
 [<assembly: MelonColor(System.ConsoleColor.DarkMagenta)>]
 do ()

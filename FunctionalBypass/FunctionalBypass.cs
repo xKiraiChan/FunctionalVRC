@@ -1,9 +1,12 @@
 ﻿using MelonLoader;
 using System;
 using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: MelonInfo(typeof(FunctionalVRC.FunctionalBypass), "FunctionalBypass", "0.1.0", "Kirai Chan", "github.com/xKiraiChan/FunctionalVRC")]
+[assembly: MelonInfo(typeof(FunctionalVRC.FunctionalBypass), "FunctionalBypass", "0.2.0", "Kirai Chan", "github.com/xKiraiChan/FunctionalVRC")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 namespace FunctionalVRC
@@ -12,21 +15,25 @@ namespace FunctionalVRC
     {
         const uint PAGE_EXECUTE_READWRITE = 0x40;
 
+        static readonly IntPtr pBytes;
+        static readonly IntPtr pID;
+
         static FunctionalBypass()
         {
             MelonLogger.Msg("------------------------------");
+            MelonLogger.Msg("Integrity Check Information:");
 
-            IntPtr process = GetCurrentProcess();
+            pID = GetCurrentProcess();
             IntPtr module = GetModuleHandle("bootstrap.dll");
 
             int size;
             unsafe { size = sizeof(MODULEINFO); }
-            MelonLogger.Msg("Struct Size: " + size);
+            MelonLogger.Msg("  Struct Size: " + size);
 
-            GetModuleInformation(process, module, out MODULEINFO info, (uint)size);
+            GetModuleInformation(pID, module, out MODULEINFO info, (uint)size);
 
-            MelonLogger.Msg("Module Base: " + module.ToString("X"));
-            MelonLogger.Msg("Module Size: " + info.SizeOfImage);
+            MelonLogger.Msg("  Module Base: " + module.ToString("X"));
+            MelonLogger.Msg("  Module Size: " + info.SizeOfImage);
 
             short offset = (short)new SigScan(Process.GetCurrentProcess(), module, (int)info.SizeOfImage)
                 .FindPattern(new byte[] { // 82 bytes
@@ -55,22 +62,88 @@ namespace FunctionalVRC
                 MelonLogger.Warning("Failed to find the integrity check");
             else
             {
-                MelonLogger.Msg("Addr Offset: 0x" + offset.ToString("X"));
+                MelonLogger.Msg("  Addr Offset: 0x" + offset.ToString("X"));
 
-                var real = module + offset + 0x10000;
-                MelonLogger.Msg("IntChk Addr: 0x" + real.ToString("X"));
+                pBytes = module + offset + 0x10000;
+                MelonLogger.Msg("  Addr pBytes: 0x" + pBytes.ToString("X"));
 
-                VirtualProtectEx(process, real, (UIntPtr)2, PAGE_EXECUTE_READWRITE, out uint oldProtect);
-                MelonLogger.Msg("Removed page protections");
-
-                Marshal.Copy(new byte[2] { 0x90, 0x90 }, 0, real, 2);
-                MelonLogger.Msg("Successfully unpatched the integrity check");
-
-                VirtualProtectEx(process, real, (UIntPtr)2, oldProtect, out _);
-                MelonLogger.Msg("Readded page protections");
+                BypassIC();
             }
+        }
 
-            MelonLogger.Msg("------------------------------");
+        public override void OnApplicationLateStart()
+        {
+            if (Directory.Exists("SafeMods"))
+            {
+                RestoreIC();
+
+                MelonBase prev = null;
+                if (MelonHandler.Mods.Count > 0)
+                    prev = MelonHandler.Mods[MelonHandler.Mods.Count - 1];
+
+                int loaded = 0;
+                foreach (var file in Directory.EnumerateFiles("SafeMods"))
+                {
+                    try
+                    {
+                        Assembly asm = Assembly.Load(File.ReadAllBytes(file));
+                        MelonInfoAttribute info = asm.GetCustomAttribute<MelonInfoAttribute>();
+                        MelonHandler.LoadFromAssembly(asm, file);
+
+                        MelonBase curr = MelonHandler.Mods[MelonHandler.Mods.Count - 1];
+
+                        if (prev != curr) OnApplicationStart();
+
+                    } 
+                    catch (Exception ex)
+                    {
+                        MelonLogger.Error($"Failed to load {file}: {ex}");
+                        continue;
+                    }
+
+                    loaded++;
+                    MelonLogger.Msg("------------------------------");
+                    MelonLogger.Msg($"Loaded {Info.Name}");
+                    if (!string.IsNullOrEmpty(Info.Author))
+                        MelonLogger.Msg($"  by: {Info.Author}");
+                    MelonLogger.Msg($"  version: {Info.Version}");
+                    if (!string.IsNullOrEmpty(Info.DownloadLink))
+                        MelonLogger.Msg($"  from: {Info.DownloadLink}");
+                }
+
+                if (loaded > 0)
+                    MelonLogger.Msg("------------------------------");
+            } 
+            else
+            {
+                MelonLogger.Msg("Functional Loader supports loading safe mods");
+                MelonLogger.Msg("Place any mods that require integrity checks");
+                MelonLogger.Msg("  into `VRChat/SafeMods`");
+            }
+        }
+
+        public static void BypassIC()
+        {
+            VirtualProtectEx(pID, pBytes, (UIntPtr)2, PAGE_EXECUTE_READWRITE, out uint oldProtect);
+            MelonLogger.Msg("Removed page protections");
+
+            Marshal.Copy(new byte[2] { 0x90, 0x90 }, 0, pBytes, 2);
+            MelonLogger.Msg("Successfully unpatched the integrity check");
+
+            VirtualProtectEx(pID, pBytes, (UIntPtr)2, oldProtect, out _);
+            MelonLogger.Msg("Readded page protections");
+        }
+
+        public static void RestoreIC()
+        {
+            VirtualProtectEx(pID, pBytes, (UIntPtr)2, PAGE_EXECUTE_READWRITE, out uint oldProtect);
+            MelonLogger.Msg("Removed page protections");
+
+            Marshal.Copy(new byte[2] { 0xFF, 0xD3 }, 0, pBytes, 2);
+            MelonLogger.Msg("Successfully repatched the integrity check");
+
+            VirtualProtectEx(pID, pBytes, (UIntPtr)2, oldProtect, out _);
+            MelonLogger.Msg("Readded page protections");
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]

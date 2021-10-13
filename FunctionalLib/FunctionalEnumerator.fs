@@ -1,4 +1,4 @@
-﻿module FunctionalEnumerator
+﻿module FunctionalVRC.FunctionalLib.FunctionalEnumerator
 
 open MelonLoader
 

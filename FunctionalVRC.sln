@@ -7,6 +7,10 @@ Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "FunctionalVRC", "Functional
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FunctionalBypass", "FunctionalBypass\FunctionalBypass.csproj", "{BB3C0886-ACAB-4693-A28F-64C505B832F8}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunctionalLib", "FunctionalLib\FunctionalLib.fsproj", "{C9BE7F49-88AE-43A8-A139-6F40109AF4B3}"
+EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FunctionalLoader", "FunctionalLoader\FunctionalLoader.fsproj", "{043D9829-69DC-444D-BF64-0BF28F358883}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{BB3C0886-ACAB-4693-A28F-64C505B832F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BB3C0886-ACAB-4693-A28F-64C505B832F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BB3C0886-ACAB-4693-A28F-64C505B832F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9BE7F49-88AE-43A8-A139-6F40109AF4B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9BE7F49-88AE-43A8-A139-6F40109AF4B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9BE7F49-88AE-43A8-A139-6F40109AF4B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9BE7F49-88AE-43A8-A139-6F40109AF4B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{043D9829-69DC-444D-BF64-0BF28F358883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{043D9829-69DC-444D-BF64-0BF28F358883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{043D9829-69DC-444D-BF64-0BF28F358883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{043D9829-69DC-444D-BF64-0BF28F358883}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

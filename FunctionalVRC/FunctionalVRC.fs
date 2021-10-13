@@ -2,7 +2,7 @@
 
 open MelonLoader
 open UnityEngine
-open FunctionalEnumerator
+open FunctionalLib.FunctionalEnumerator
 
 type FunctionalVRC() = 
     inherit MelonMod()

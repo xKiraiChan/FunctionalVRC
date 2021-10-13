@@ -7,10 +7,8 @@
   </PropertyGroup>
   
   <ItemGroup>
-    <Content Include="nuget.config" />
     <Compile Include="Events.fs" />
     <Compile Include="Utils.fs" />
-    <Compile Include="FunctionalEnumerator.fs" />
     <Compile Include="Modules\Flight.fs" />
     <Compile Include="Modules\UI.fs" />
     <Compile Include="ModuleLoader.fs" />
@@ -20,6 +18,9 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\VRChat\MelonLoader\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="FunctionalLib">
+      <HintPath>..\FunctionalLib\Dist\FunctionalLib.dll</HintPath>
     </Reference>
     <Reference Include="Il2Cppmscorlib">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\VRChat\MelonLoader\Managed\Il2Cppmscorlib.dll</HintPath>

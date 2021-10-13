@@ -3,17 +3,19 @@ using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-[assembly: MelonInfo(typeof(FunctionalVRC.FunctionalLoader), "FunctionalLoader", "0.1.0", "Kirai Chan", "github.com/xKiraiChan/FunctionalVRC")]
+[assembly: MelonInfo(typeof(FunctionalVRC.FunctionalBypass), "FunctionalBypass", "0.1.0", "Kirai Chan", "github.com/xKiraiChan/FunctionalVRC")]
 [assembly: MelonGame("VRChat", "VRChat")]
 
 namespace FunctionalVRC
 {
-    public class FunctionalLoader : MelonPlugin
+    public class FunctionalBypass : MelonPlugin
     {
         const uint PAGE_EXECUTE_READWRITE = 0x40;
 
-        public override void OnApplicationEarlyStart()
+        static FunctionalBypass()
         {
+            MelonLogger.Msg("------------------------------");
+
             IntPtr process = GetCurrentProcess();
             IntPtr module = GetModuleHandle("bootstrap.dll");
 
@@ -67,6 +69,8 @@ namespace FunctionalVRC
                 VirtualProtectEx(process, real, (UIntPtr)2, oldProtect, out _);
                 MelonLogger.Msg("Readded page protections");
             }
+
+            MelonLogger.Msg("------------------------------");
         }
 
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]

@@ -29,10 +29,10 @@ type FunctionalVRC() =
             bytes <- File.ReadAllBytes "Dependencies/FunctionalLib.dll"
             oldHash <- SHA256(bytes)
             if not local then
-                newHash <- Async.RunSynchronously (Async.AwaitTask (http.GetStringAsync("https://github.com/xKiraiChan/FunctionalVRC/blob/master/FunctionalLib/Dist/FunctionalLib.dll?raw=true")))
+                newHash <- Async.RunSynchronously (Async.AwaitTask (http.GetStringAsync("https://github.com/xKiraiChan/FunctionalVRC/blob/master/FunctionalLib/Dist/FunctionalLib.dll.hash?raw=true")))
 
         if (isNull bytes || not (oldHash.Equals newHash)) && not local then
-            bytes <- Async.RunSynchronously (Async.AwaitTask (http.GetByteArrayAsync("https://github.com/xKiraiChan/FunctionalVRC/blob/master/FunctionalLib/Dist/FunctionalLib.dll.hash?raw=true")))
+            bytes <- Async.RunSynchronously (Async.AwaitTask (http.GetByteArrayAsync("https://github.com/xKiraiChan/FunctionalVRC/blob/master/FunctionalLib/Dist/FunctionalLib.dll?raw=true")))
             newHash <- SHA256(bytes)
 
         match isNull oldHash with
